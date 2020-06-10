@@ -8,7 +8,7 @@
 
 - [submission PR](https://github.com/Darah98/auth-server/pull/1)
 
-- [ci/cd]()
+- [ci/cd](https://github.com/Darah98/auth-server/actions/runs/131465447)
 
 
 # Setup
