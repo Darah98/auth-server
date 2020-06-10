@@ -1,6 +1,6 @@
 'use strict';
 const base64 = require('base-64');
-const userModel = require('../models/users-model.js');
+const userSchema = require('../models/users-schema.js');
 
 module.exports = (req, res, next) => {
   if (!req.headers.authorization) {
@@ -8,10 +8,11 @@ module.exports = (req, res, next) => {
   } else {
     const basic = req.headers.authorization.split(' ').pop();
     const [user, pass] = base64.decode(basic).split(':');
-    userModel
+    userSchema
       .authenticateBasic(user, pass)
       .then((validUser) => {
-        req.token = userModel.generateToken(validUser);
+        req.token = userSchema.generateToken(validUser);
+        console.log('signed in');
         next();
       })
       .catch((err) => next(err.message));
