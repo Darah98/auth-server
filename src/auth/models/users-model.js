@@ -15,6 +15,9 @@ class User {
     }
     return Promise.reject();
   }
+  // async read(user){
+
+  // }
   list() {
     return this.schema.find({});
   }

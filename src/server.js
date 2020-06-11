@@ -4,7 +4,7 @@ const authRouter = require('./auth/router.js');
 const app = express();
 
 app.use(express.json());
-app.use('/auth/v1', authRouter);
+app.use('/auth', authRouter);
 
 module.exports = {
   server: app,
