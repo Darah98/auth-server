@@ -6,15 +6,15 @@ const basicAuth = require('./middleware/basic.js');
 const oAuth= require('./middleware/oauth.js');
 const router = express.Router();
 
-router.get('/', home);
+// router.get('/', express.static('../../public/index.html'));
 router.post('/signup', signupOne);
 router.post('/signin', basicAuth, signinOne);
 router.get('/users', listAll);
 router.get('/oauth', oAuth, authenticateOne)
 
-function home(req, res){
-  res.send('hey');
-}
+// function home(req, res){
+//   res.send('hey');
+// }
 
 function signupOne(req, res, next) {
   const newMod = new userModel(userSchema);
