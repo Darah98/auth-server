@@ -6,15 +6,10 @@ const basicAuth = require('./middleware/basic.js');
 const oAuth= require('./middleware/oauth.js');
 const router = express.Router();
 
-// router.get('/', express.static('../../public/index.html'));
 router.post('/signup', signupOne);
 router.post('/signin', basicAuth, signinOne);
 router.get('/users', listAll);
 router.get('/oauth', oAuth, authenticateOne)
-
-// function home(req, res){
-//   res.send('hey');
-// }
 
 function signupOne(req, res, next) {
   const newMod = new userModel(userSchema);
@@ -40,10 +35,7 @@ function listAll(req, res, next) {
 }
 
 function authenticateOne(req, res, next){
-  // const newMod = new userModel(userSchema);
-  // const result= newMod.read(req.user);
-
-  res.json({token: req.token});
+  res.status(200).send(req.token);
   next();
 }
 module.exports = router;

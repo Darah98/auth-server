@@ -32,23 +32,23 @@ async function codeForToken(code) {
         grant_type: 'authorization_code',
     });
     const accessToken = tokenRes.body.access_token;
-    console.log('hey from oauth', tokenRes.body);
     return accessToken;
 }
 async function getRemoteUser(token) {
-    const userRes = await superagent.get(remoteAPI).set('Auhorization', `token ${token}`).set('user-agent', 'express-app');
-    console.log('hey from oauth remote user');
+    const userRes = await superagent.get(remoteAPI).set('Authorization', `token ${token}`).set('user-agent', 'express-app');
     const user = userRes.body;
     return user;
 }
 async function getUserInfo(remoteUser) {
-    const userRecord = {
+    let userRecord = {
         username: remoteUser.login,
         password: '18d12s',
     };
+    const new_username= userRecord.username;
     const newMod= new userModel(userSchema);
-    const storedUser= await newMod.find({username:userRecord.username});
-    const user = storedUser ? storedUser[0] : newMod.save(userRecord);
+    const storedUser= await userSchema.find({username: new_username});
+    console.log(storedUser);
+    const user = storedUser[0] ? storedUser[0] : newMod.save(userRecord);
     const token = userSchema.generateToken(user);
     return [user, token];
 }
