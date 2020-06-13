@@ -4,12 +4,14 @@ const userModel = require('./models/users-model.js');
 const userSchema = require('./models/users-schema.js');
 const basicAuth = require('./middleware/basic.js');
 const oAuth= require('./middleware/oauth.js');
+const bearerAuth = require('./middleware/bearer.js');
 const router = express.Router();
 
 router.post('/signup', signupOne);
 router.post('/signin', basicAuth, signinOne);
 router.get('/users', listAll);
 router.get('/oauth', oAuth, authenticateOne)
+router.post('/secret', bearerAuth, secretOne)
 
 function signupOne(req, res, next) {
   const newMod = new userModel(userSchema);
@@ -38,4 +40,9 @@ function authenticateOne(req, res, next){
   res.status(200).send(req.token);
   next();
 }
+
+function secretOne(req, res, next){
+  res.status(200).send('hla wallah')
+}
+
 module.exports = router;

@@ -19,9 +19,19 @@ module.exports.authenticateBasic = async function (user, pass) {
   return valid ? userInfo[0].username : Promise.reject();
 }
 module.exports.generateToken = function (user) {
-  const token = jwt.sign({ username: user.username }, SECRET);
+  const token = jwt.sign({ username: user.username }, SECRET, {expiresIn: 900});
   return token;
 }
 module.exports.list = async function () {
   return await schemaModel.find({});
+}
+module.exports.tokenAuthentication= async function(token){
+  try{
+    const yesToken= await jwt.verify(token, SECRET);
+    const yesStored= await schemaModel.find({username: yesToken.username});
+    const result = yesStored[0] ? Promise.resolve(yesStored) : Promise.reject('User Not Found');
+    return result
+  } catch(err){
+    return Promise.reject(err.message);
+  }
 }
