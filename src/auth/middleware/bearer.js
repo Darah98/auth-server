@@ -5,7 +5,6 @@ module.exports = (req, res, next) => {
     } else {
         const [auth, token] = req.headers.authorization.split(' ');
         if (auth == 'Bearer') {
-            // console.log('-------nice-----');
             userSchema.tokenAuthentication(token).then(validUser => {
                 req.user = validUser;
                 next();

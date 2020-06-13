@@ -5,6 +5,7 @@ const userSchema = require('./models/users-schema.js');
 const basicAuth = require('./middleware/basic.js');
 const oAuth= require('./middleware/oauth.js');
 const bearerAuth = require('./middleware/bearer.js');
+const permission= require('../auth/middleware/authorize.js');
 const router = express.Router();
 
 router.post('/signup', signupOne);
@@ -12,6 +13,10 @@ router.post('/signin', basicAuth, signinOne);
 router.get('/users', listAll);
 router.get('/oauth', oAuth, authenticateOne)
 router.post('/secret', bearerAuth, secretOne)
+router.get('/read', bearerAuth, permission('read'), userRoute);
+router.post('/create', bearerAuth, permission('create'), writerRoute);
+router.put('/update', bearerAuth, permission('update'), editorRoute);
+router.delete('/delete', bearerAuth, permission('delete'), adminRoute);
 
 function signupOne(req, res, next) {
   const newMod = new userModel(userSchema);
@@ -42,7 +47,22 @@ function authenticateOne(req, res, next){
 }
 
 function secretOne(req, res, next){
-  res.status(200).send('hla wallah')
+  res.status(200).send('hla wallah');
 }
 
+function userRoute(req, res, next){
+  res.status(200).send('Route */read* worked');
+}
+
+function writerRoute(req, res, next){
+  res.status(200).send('Route */create* worked');
+}
+
+function editorRoute(req, res, next){
+  res.status(200).send('Route */update* worked');
+}
+
+function adminRoute(req, res, next){
+  res.status(200).send('Route */delete* worked');
+}
 module.exports = router;

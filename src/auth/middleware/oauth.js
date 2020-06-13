@@ -8,6 +8,12 @@ const remoteAPI = 'https://api.github.com/user';
 const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
 const API_SERVER = process.env.API_SERVER;
+const roles = {
+    user: ['read'],
+    writer: ['read', 'create'],
+    editor: ['read', 'create', 'update'],
+    admin: ['read', 'create', 'update', 'delete'],
+  }
 
 module.exports = async (req, res, next) => {
     try {
@@ -43,6 +49,8 @@ async function getUserInfo(remoteUser) {
     let userRecord = {
         username: remoteUser.login,
         password: '18d12s',
+        role: 'admin',
+        capabilities: roles['admin'],
     };
     const new_username= userRecord.username;
     const newMod= new userModel(userSchema);
