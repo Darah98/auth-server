@@ -6,7 +6,7 @@
 
 # Links and Resources
 
-- [submission PR](https://github.com/Darah98/auth-server/pull/1)
+- [submission PR](https://github.com/Darah98/auth-server/pull/4)
 
 - [ci/cd](https://github.com/Darah98/auth-server/actions/runs/131465447)
 
